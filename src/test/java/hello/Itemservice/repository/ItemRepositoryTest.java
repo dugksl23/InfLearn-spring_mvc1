@@ -6,10 +6,10 @@ import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.Arrays.*;
+import static java.util.Arrays.stream;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ItemRepositoryTest {
@@ -98,8 +98,6 @@ class ItemRepositoryTest {
         Assertions.assertThat(items).isEqualTo(all);
 
 
-
-
     }
 
     @Test
@@ -117,9 +115,39 @@ class ItemRepositoryTest {
         // ..then
         Assertions.assertThat(one.getItemName()).isEqualTo(item1.getItemName());
 
-
     }
 
 
+    @Test
+    void copTest() {
+
+        // 깊은 복사
+        int[] arr = new int[]{0, 1, 2, 3, 4, 5};
+        int[] clone = arr.clone();
+        clone[0] = 1;
+        System.out.println(arr[0]);
+        System.out.println(clone[0]);
+
+        int a = 10;
+        int b = a;
+        b = 11;
+
+        System.out.println(a);
+        System.out.println(b);
+
+
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("10",1,1));
+
+        List<Item> collect = new ArrayList<>();
+        collect.addAll(items);
+        collect.get(0).setPrice(20);
+        System.out.println(collect.get(0).getPrice());
+        System.out.println(items.get(0).getPrice());
+
+        Assertions.assertThat(items.get(0).getPrice()).isEqualTo(collect.get(0).getPrice());
+        // 얕은 복사
+
+    }
 
 }
