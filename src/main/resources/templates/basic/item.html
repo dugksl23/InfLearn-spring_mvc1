@@ -12,6 +12,7 @@
     <div class="py-5 text-center">
         <h2>상품 상세</h2></div>
     <div>
+        <h1 th:if="${param.result}" th:text="|상품 등록 완료|"></h1>
         <label for="itemId">상품 ID</label>
         <input th:value="${item.getId()}" type="text" id="itemId" name="itemId" class="form-control"
                value="1" readonly>

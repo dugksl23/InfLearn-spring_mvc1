@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -36,18 +37,27 @@ public class BasicItemController {
     }
 
 
+//    @PostMapping("/add")
+//    public String addItemV1WithRedirectString(@ModelAttribute Item item, Model model) {
+//        Item save = store.save(item);
+//        //model.addAttribute("list", store.findAll());
+//        log.info("id {}", save.getId());
+//        return "redirect:/basic/items/" + save.getId();
+//    }
+
     @PostMapping("/add")
-    public String addItem(@ModelAttribute Item item, Model model) {
+    public String addItemV2WithRedirectAttribute(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
         Item save = store.save(item);
-        //model.addAttribute("list", store.findAll());
-        log.info("id {}", save.getId());
-        return "redirect:/basic/items/" + save.getId();
+        redirectAttributes.addAttribute("id", save.getId());
+        redirectAttributes.addAttribute("result", true);
+        log.info("1, {}", save.getId());
+        return "redirect:/basic/items/{id}";
     }
 
 
     @GetMapping("/{id}")
-    public String findByItem(@PathVariable Long id, Model model) {
-
+    public String findByItem(@ModelAttribute Item item, @PathVariable Long id, Model model) {
+        log.info("2, {}", item.getId());
         Item one = store.findOne(id);
         model.addAttribute("item", one);
 
