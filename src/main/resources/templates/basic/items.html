@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"  href="/Users/yohan/Desktop/repository/infran_study/Item-service/src/main/resources/static/css/bootstrap.min.css " rel="stylesheet">
+    <!--
+    th:(proprerty)는 뒤에 속성의 값을 th 속성값으로 대신한다.
+    th:@{} /~~ 절대경로로 표시 및 접근
+    th: ../~~ 상대경로로 표시 및 접근
+    -->
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>상품 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end" th:onclick="|location.href=`@{/basic/items/add}`|" type="button">
+                상품
+                등록 onclick="location.href='addForm.html'"
+            </button>
+            <!--
+                th:onclick= 내부에서 js 문법을 사용하려면 "|location.href=`@{/a/b}`|" 여야 한다. 경로를 나타낼 떄는 @{/a} 이다.
+            -->
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <th>ID</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>수량</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${list}">
+                <td><a href="item.html" th:href="@{|/basic/items/${item.id}|}" th:text="${item.id}">1</a></td>
+                <td><a href="item.html" th:href="@{/basic/items/{itemId}(itemId=${item.id})}" th:text="${item.itemName}">테스트 상품1</a></td>
+                <td th:text="${item.price}">10000</td>
+                <td th:text="${item.getId()}">10000</td>
+                <td th:text="${item.quantity}">10</td>
+            </tr>
+
+<!--            {itemId}(itemId=${item.id})<tr>-->
+<!--                <td><a href="item.html">1</a></td>-->
+<!--                <td><a href="item.html">테스트 상품1</a></td>-->
+<!--                <td>10000</td>-->
+<!--                <td>10</td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td><a href="item.html">2</a></td>-->
+<!--                <td><a href="item.html">테스트 상품2</a></td>-->
+<!--                <td>20000</td>-->
+<!--                <td>20</td>-->
+<!--            </tr>-->
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
