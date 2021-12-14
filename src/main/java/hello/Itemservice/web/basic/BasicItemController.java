@@ -30,7 +30,7 @@ public class BasicItemController {
     }
 
 
-    @GetMapping("/addProc")
+    @GetMapping("/add")
     public String addItem() {
         return "basic/addForm";
     }
@@ -38,9 +38,7 @@ public class BasicItemController {
 
     @PostMapping("/add")
     public String addItem(@ModelAttribute Item item, Model model) {
-        System.out.println("item id : " + item.getId());
         store.save(item);
-
         model.addAttribute("list", store.findAll());
         return "/basic/items";
     }
