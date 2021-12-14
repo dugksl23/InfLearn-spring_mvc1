@@ -38,9 +38,10 @@ public class BasicItemController {
 
     @PostMapping("/add")
     public String addItem(@ModelAttribute Item item, Model model) {
-        store.save(item);
-        model.addAttribute("list", store.findAll());
-        return "/basic/items";
+        Item save = store.save(item);
+        //model.addAttribute("list", store.findAll());
+        log.info("id {}", save.getId());
+        return "redirect:/basic/items/" + save.getId();
     }
 
 
