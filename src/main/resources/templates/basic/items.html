@@ -1,4 +1,3 @@
-<!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -15,9 +14,8 @@
         <h2>상품 목록</h2></div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary float-end" th:onclick="|location.href=`@{/basic/items/add}`|" type="button">
-                상품
-                등록 onclick="location.href='addForm.html'"
+            <button class="btn btn-primary float-end" th:onclick="|location.href=`@{/basic/items/addProc}`|" type="button">
+                상품 등록
             </button>
             <!--
                 th:onclick= 내부에서 js 문법을 사용하려면 "|location.href=`@{/a/b}`|" 여야 한다. 경로를 나타낼 떄는 @{/a} 이다.

@@ -4,11 +4,10 @@ package hello.Itemservice.web.basic;
 import hello.Itemservice.domain.item.Item;
 import hello.Itemservice.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
@@ -17,6 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/basic/items")
 @RequiredArgsConstructor
+@Slf4j
 public class BasicItemController {
 
     private final ItemRepository store;
@@ -30,16 +30,49 @@ public class BasicItemController {
     }
 
 
-    @GetMapping("/add")
-    public String addItem(Model model) {
-        System.out.println("come");
-        return "basic/items";
+    @GetMapping("/addProc")
+    public String addItem() {
+        return "basic/addForm";
     }
 
+
+    @PostMapping("/add")
+    public String addItem(@ModelAttribute Item item, Model model) {
+        System.out.println("item id : " + item.getId());
+        store.save(item);
+
+        model.addAttribute("list", store.findAll());
+        return "/basic/items";
+    }
+
+
     @GetMapping("/{id}")
-    public String addItem(@PathVariable Long id, Model model) {
-        System.out.println("id :" + id);
-        return "basic/items";
+    public String findByItem(@PathVariable Long id, Model model) {
+
+        Item one = store.findOne(id);
+        model.addAttribute("item", one);
+
+        return "basic/item";
+    }
+
+    @GetMapping("/updateProc/{id}")
+    public String updateProcItem(@PathVariable Long id, Model model) {
+        Item one = store.findOne(id);
+        model.addAttribute("item", one);
+        return "basic/editForm";
+    }
+
+    @PostMapping("/updateItem/{itemId}")
+    public String updateItem(Item item, @PathVariable Long itemId) { //ex) @ModelAttribute("item")
+        log.info("update come : {}", itemId);
+        // @PathVariable은 name 값을 정해주거나 변수명을 일치시켜야 한다.
+
+        Item update = store.update(itemId, item);
+//        model.addAttribute("item", update);
+//        @ModelAttribute("name")의 name 값을 지정하면, 해당 어노테이션 사용한 객체가 model에 자동 등록되기에 생략 가능.
+//        name 값도 생략 가능하며, 지정된 class type을 첫글자만 소문자만 바꾼 후에, key값으로 저장한다.-> ex) @ModelAttribute
+//        @ModelAttribute 도 생략가능
+        return "redirect:/basic/items/{itemId}";
     }
 
 
